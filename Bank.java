@@ -11,6 +11,8 @@ public class Bank {
 
     private Bank() {
         // utility class — ห้ามสร้าง object
+        
+        
     }
 
     /**
@@ -37,16 +39,10 @@ public class Bank {
         //     transfer(A, B, ...) จะล็อก A ก่อน แล้วค่อย B
         //     transfer(B, A, ...) จะล็อก B ก่อน แล้วค่อย A
         //
-        // ถ้าสองอย่างนี้เกิดพร้อมกัน ต่างฝ่ายต่างถือสิ่งที่อีกฝ่ายรอ
-        // ไม่มี error ไม่มี exception โปรแกรมแค่ค้างเงียบ ๆ
-        //
-        // งานของคุณ: ทำให้ทุกเธรดขอล็อกใน "ลำดับเดียวกันเสมอ"
-        //            ไม่ว่าจะโอนไปทางไหน โดยใช้ from.id() และ to.id()
-        //
-        // ห้ามแก้ด้วยการเอาล็อกใบใดใบหนึ่งออก — ยอดรวมจะเพี้ยน
-        // ---------------------------------------------------------------
-        synchronized (from) {
-            synchronized (to) {
+        Account A = from.id() < to.id() ? from : to;
+        Account B = from.id() < to.id() ? to : from;        
+        synchronized (A) {
+            synchronized (B) {
                 if (!from.withdraw(amount)) {
                     return false;
                 }
